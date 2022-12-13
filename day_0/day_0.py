@@ -2,11 +2,11 @@ import numpy as np
 
 
 def part_1(data):
-    ...
+    return ...
 
 
 def part_2(data):
-    ...
+    return ...
 
 
 def read_data(filename):
@@ -18,8 +18,8 @@ def read_data(filename):
 #############################
 test_data = read_data('input_t.txt')
 
-assert part_1(test_data) == ...
-assert part_2(test_data) == ...
+assert (res := part_1(test_data)) == ..., f'Actual: {res}'
+assert (res := part_2(test_data)) == ..., f'Actual: {res}'
 #############################
 
 
