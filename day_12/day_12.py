@@ -79,6 +79,13 @@ def part_2_bfs(topo_graph, destination):
     return bfs(reversed_topo_graph, destination, starts)
 
 
+def part_2_nx(topo_graph, destination):
+    starts = [node[0] for node in topo_graph.nodes(data=True) if node[1]['value'] == 0]
+    reversed_topo_graph = topo_graph.reverse()
+    all_dest = nx.shortest_path_length(reversed_topo_graph, destination)
+    return min([all_dest.get(node, float('inf')) for node in starts])
+
+
 def get_reachable(cell, topo_map, max_alt_gain):
     rows_num, cols_num = len(topo_map), len(topo_map[0])
     neighbours = get_neighbours(cell, rows_num, cols_num)
@@ -132,11 +139,6 @@ assert part_1_bfs(topo_graph, start_pos, dest_pos) == 31
 assert part_2_bfs(topo_graph, dest_pos) == 29
 # #############################
 
-print('part_1_dijkstra test data: ', timeit('part_1_dijkstra(topo_graph, start_pos, dest_pos)', number=1000, globals=globals()))
-print('part_1_bfs test data: ', timeit('part_1_bfs(topo_graph, start_pos, dest_pos)', number=1000, globals=globals()))
-print('part_2_dijkstra test data: ', timeit('part_2_dijkstra(topo_graph, dest_pos)', number=1000, globals=globals()))
-print('part_2_bfs test data: ', timeit('part_2_bfs(topo_graph, dest_pos)', number=1000, globals=globals()))
-
 topo_map, start_pos, dest_pos = read_data('input.txt')
 topo_graph = build_graph(topo_map)
 
@@ -145,17 +147,16 @@ print(part_2_bfs(topo_graph, dest_pos))
 
 print('part_1_dijkstra: ', timeit('part_1_dijkstra(topo_graph, start_pos, dest_pos)', number=10, globals=globals()))
 print('part_1_bfs: ', timeit('part_1_bfs(topo_graph, start_pos, dest_pos)', number=10, globals=globals()))
+print('part_1_nx: ', timeit('nx.shortest_path_length(topo_graph, start_pos, dest_pos)', number=10, globals=globals()))
+print()
 print('part_2_dijkstra: ', timeit('part_2_dijkstra(topo_graph, dest_pos)', number=10, globals=globals()))
 print('part_2_bfs: ', timeit('part_2_bfs(topo_graph, dest_pos)', number=10, globals=globals()))
+print('part_2_nx: ', timeit('part_2_nx(topo_graph, dest_pos)', number=10, globals=globals()))
 
 
-# part_1_dijkstra test data:  0.26143239999873913
-# part_1_bfs test data:  0.07746580000093672
-# part_2_dijkstra test data:  0.7818436999987171
-# part_2_bfs test data:  0.5086516000010306
-# 361
-# 354
-# part_1_dijkstra:  20.485329499999352
-# part_1_bfs:  0.0855779999983497
-# part_2_dijkstra:  21.611355699998967
-# part_2_bfs:  1.5214402999990853
+# part_1_dijkstra:  22.477384699999675
+# part_1_bfs:  0.07904939999934868
+# part_1_nx:  0.047059700002137106
+# part_2_dijkstra:  21.326467899998534
+# part_2_bfs:  1.4835583999993105
+# part_2_nx:  0.8810749000003852
